@@ -1,0 +1,20 @@
+/*
+ * This is a logi.CAD 3 template for the local PLC object
+ */
+
+{
+	CHANNEL DummyChannel
+		TCP
+			ADDRESS := 127.0.0.1;
+			PORT    := 1534;
+		END_TCP
+	END_CHANNEL
+}
+
+CONFIGURATION ESPConfiguration
+	RESOURCE esp ON ESP8266 { ON_CHANNEL := DummyChannel }
+		TASK DefaultTask(INTERVAL := TIME#50ms, PRIORITY := 38229);
+		PROGRAM MQTTSample WITH DefaultTask :
+			MQTTSample;
+	END_RESOURCE
+END_CONFIGURATION

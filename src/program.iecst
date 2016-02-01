@@ -1,0 +1,56 @@
+PROGRAM MQTTSample
+
+	VAR
+		init : BOOL := TRUE;
+		subscribed : BOOL := FALSE;
+
+		received_topic : STRING[64];
+		received_payload : STRING[64];
+		last_eno : BOOL;
+
+		button : R_TRIG;
+	END_VAR
+
+	VAR
+		pin_relay : USINT := 5;
+		pin_button : USINT := 0;
+	END_VAR
+
+	IF init THEN
+		pinMode(pin_relay, TRUE);
+		pinMode(pin_button, FALSE);
+		wifi_setup_client('ssid', 'password');
+		mqtt_init('broker-url', 1883);
+
+		init := FALSE;
+	END_IF;
+
+	IF NOT wifi_connected() THEN
+		RETURN;
+	END_IF;
+	IF NOT mqtt_connected() THEN
+		subscribed := FALSE;
+		mqtt_connect('logi.RTS 1');
+	ELSE
+		IF NOT subscribed THEN
+			mqtt_subscribe(ENO => subscribed, topic := 'logi.TOPIC');
+		ELSE
+			REPEAT
+				mqtt_receive(ENO => last_eno, topic => received_topic, payload => received_payload);
+				IF last_eno THEN
+					IF received_payload = 'on' THEN
+						digitalWrite(pin_relay, TRUE);
+					ELSIF received_payload = 'off' THEN
+						digitalWrite(pin_relay, FALSE);
+					END_IF;
+				END_IF;
+			UNTIL NOT last_eno
+			END_REPEAT;
+		END_IF;
+
+		button(CLK := digitalRead(pin_button));
+		IF button.Q THEN
+			mqtt_publish('logi.TOPIC', 'logi.RTS 1 button pressed');
+		END_IF;
+	END_IF;
+END_PROGRAM

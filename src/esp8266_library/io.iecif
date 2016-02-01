@@ -1,0 +1,22 @@
+{extern_c}
+{Supported_Platforms := ESP8266}
+
+FUNCTION pinMode
+	VAR_INPUT
+		pin : USINT; /* 5 ... relay */
+		direction : BOOL; /* TRUE = OUTPUT, FALSE = INPUT */
+	END_VAR
+END_FUNCTION
+
+FUNCTION digitalWrite
+	VAR_INPUT
+		pin : USINT; /* 5 ... relay */
+		value : BOOL;	
+	END_VAR
+END_FUNCTION
+
+FUNCTION digitalRead : BOOL
+	VAR_INPUT
+		pin : USINT; /* 0 ... button */
+	END_VAR
+END_FUNCTION

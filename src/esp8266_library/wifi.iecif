@@ -1,0 +1,12 @@
+{ extern_c }
+{ Supported_Platforms := ESP8266 }
+
+FUNCTION wifi_connected : BOOL
+END_FUNCTION
+
+FUNCTION wifi_setup_client
+	VAR_INPUT
+		ssid : STRING[64];
+		password : STRING[64];
+	END_VAR
+END_FUNCTION

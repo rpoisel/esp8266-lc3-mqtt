@@ -1,0 +1,38 @@
+{ extern_c }
+{ Supported_Platforms := ESP8266 }
+
+FUNCTION mqtt_init
+	VAR_INPUT
+		server_url : STRING[64];
+		port : UINT;
+	END_VAR
+END_FUNCTION
+
+FUNCTION mqtt_connect
+	VAR_INPUT
+		clientId : STRING[64];
+	END_VAR
+END_FUNCTION
+
+FUNCTION mqtt_connected : BOOL
+END_FUNCTION
+
+FUNCTION mqtt_publish
+	VAR_INPUT
+		topic : STRING[64];
+		payload : STRING[64];
+	END_VAR
+END_FUNCTION
+
+FUNCTION mqtt_subscribe
+	VAR_INPUT
+		topic : STRING[64];
+	END_VAR
+END_FUNCTION
+
+FUNCTION mqtt_receive
+	VAR_OUTPUT
+		topic : STRING[64];
+		payload : STRING[64];
+	END_VAR
+END_FUNCTION
