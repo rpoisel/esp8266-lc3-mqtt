@@ -4,10 +4,9 @@
 
 {
 	CHANNEL DummyChannel
-		TCP
-			ADDRESS := 127.0.0.1;
-			PORT    := 1534;
-		END_TCP
+		ESPTOOL
+			PORT := 'COM12';
+		END_ESPTOOL
 	END_CHANNEL
 }
 
